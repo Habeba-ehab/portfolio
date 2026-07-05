@@ -57,7 +57,7 @@ function EducationEntry({
 
 export function Education() {
   return (
-    <section id="education" className="relative py-28 md:py-36">
+    <section id="education" className="relative py-16 md:py-24">
       <div className="section-container">
         <SectionHeading
           title="Education"

@@ -47,7 +47,7 @@ export function About() {
       id="about"
       ref={sectionRef}
       style={{ opacity: sectionOpacity }}
-      className="relative py-28 md:py-36"
+      className="relative py-16 md:py-24"
     >
       <div className="section-container">
         <SectionHeading

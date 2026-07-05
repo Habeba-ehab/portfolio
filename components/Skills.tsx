@@ -129,7 +129,7 @@ function SkillCluster({
 
 export function Skills() {
   return (
-    <section id="skills" className="relative overflow-hidden py-28 md:py-40">
+    <section id="skills" className="relative overflow-hidden py-16 md:py-24">
       <div className="section-container relative z-10">
         <SectionHeading
           title="Skills"

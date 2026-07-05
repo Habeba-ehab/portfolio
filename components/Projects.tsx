@@ -125,7 +125,7 @@ export function Projects() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="projects" className="relative py-28 md:py-36">
+    <section id="projects" className="relative py-16 md:py-24">
       <div className="section-container">
         <SectionHeading
           title="Projects"

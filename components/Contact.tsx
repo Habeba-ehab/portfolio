@@ -99,7 +99,7 @@ export function Contact() {
     }`;
 
   return (
-    <section id="contact" className="relative py-28 md:py-36">
+    <section id="contact" className="relative py-16 md:py-24">
       <div className="section-container">
         <div className="relative z-30 mb-24 flex flex-col items-center text-center md:mb-32">
           <motion.div
