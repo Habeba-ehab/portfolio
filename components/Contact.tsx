@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mail, Phone, Send, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
-import { SectionHeading } from "./SectionHeading";
 import { contactInfo } from "@/lib/data";
 import { LinkedInIcon } from "./icons/LinkedInIcon";
 
@@ -102,13 +101,52 @@ export function Contact() {
   return (
     <section id="contact" className="relative py-28 md:py-36">
       <div className="section-container">
-        <SectionHeading
-          title="Contact"
-          showUnderline={false}
-          titleClassName="text-4xl md:text-6xl text-red"
-        />
+        <div className="relative z-30 mb-24 flex flex-col items-center text-center md:mb-32">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: -8 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, ease: "backOut" }}
+            className="flex h-24 w-24 flex-col items-center justify-center rounded-full border-2 border-dashed border-red text-red md:h-28 md:w-28"
+          >
+            <span className="font-script text-xl md:text-2xl">say hi</span>
+          </motion.div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-15% 0px" }}
+            transition={{ duration: 0.6, delay: 0.15, ease: "easeOut" }}
+            className="mt-6 font-display text-4xl text-ink md:text-6xl"
+          >
+            Let&apos;s Talk
+          </motion.h2>
+        </div>
 
-        <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+        <div className="relative mx-auto max-w-4xl" style={{ perspective: 1400 }}>
+          <motion.div
+            aria-hidden="true"
+            initial={{ rotateX: 0 }}
+            whileInView={{ rotateX: -158 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.9, delay: 0.2, ease: [0.65, 0, 0.35, 1] }}
+            style={{ transformOrigin: "top", transformStyle: "preserve-3d" }}
+            className="pointer-events-none absolute inset-x-0 top-0 z-20 h-20 md:h-28"
+          >
+            <div
+              className="h-full w-full bg-red-dark"
+              style={{ clipPath: "polygon(0 0, 100% 0, 50% 100%)" }}
+            />
+          </motion.div>
+
+          <div className="h-3 w-full rounded-t-sm bg-paper-card" />
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{ duration: 0.6, delay: 0.65, ease: "easeOut" }}
+            className="grid gap-12 border border-t-0 border-ink/10 bg-paper-card/40 p-6 md:grid-cols-2 md:gap-16 md:p-10"
+          >
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -230,6 +268,7 @@ export function Contact() {
               )}
             </AnimatePresence>
           </motion.form>
+          </motion.div>
         </div>
       </div>
     </section>

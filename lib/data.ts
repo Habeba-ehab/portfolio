@@ -106,6 +106,7 @@ export interface EducationEntry {
   period: string;
   location: string;
   cgpa?: string;
+  grade?: string;
   coursework?: string[];
 }
 
@@ -116,6 +117,7 @@ export const education: EducationEntry[] = [
     period: "2026",
     location: "Alexandria, Egypt",
     cgpa: "3.83/4.0",
+    grade: "Excellent",
     coursework: [
       "Data Structures & Algorithm Analysis",
       "Object-Oriented Programming",

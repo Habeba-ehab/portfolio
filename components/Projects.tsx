@@ -1,65 +1,88 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ExternalLink, FolderGit2, ImageOff } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 import { projects } from "@/lib/data";
 
-function ProjectImage({ src, alt }: { src: string; alt: string }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div className="flex aspect-video items-center justify-center gap-2 rounded-sm border border-dashed border-ink/15 bg-paper text-xs uppercase tracking-[0.2em] text-ink-dim/60">
-        <ImageOff size={14} /> Image coming soon
-      </div>
-    );
-  }
+function StickyImage({ project }: { project: (typeof projects)[number] | undefined }) {
+  if (!project) return null;
 
   return (
-    <div className="relative aspect-2/1 overflow-hidden rounded-sm border border-ink/10 bg-paper">
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        sizes="(min-width: 768px) 50vw, 100vw"
-        className="object-contain"
-        onError={() => setFailed(true)}
-      />
-    </div>
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={project.title}
+        initial={{ opacity: 0, scale: 1.03 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.97 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="relative aspect-2/1 w-full overflow-hidden rounded-sm border border-ink/10 bg-paper"
+      >
+        {project.image ? (
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            sizes="(min-width: 768px) 55vw, 100vw"
+            className="object-contain"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center gap-2 border border-dashed border-ink/15 bg-paper text-xs uppercase tracking-[0.2em] text-ink-dim/60">
+            <ImageOff size={14} /> Image coming soon
+          </div>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
-function ProjectCard({
+function ProjectEntry({
   project,
   index,
+  onActivate,
 }: {
   project: (typeof projects)[number];
   index: number;
+  onActivate: (index: number) => void;
 }) {
-  const rotate = index % 2 === 0 ? -1 : 1;
-
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      onViewportEnter={() => onActivate(index)}
+      viewport={{ margin: "-45% 0px -45% 0px" }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-15% 0px" }}
-      transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-      whileHover={{ y: -4, rotate }}
-      className="flex flex-col rounded-sm border border-ink/10 bg-paper-card p-6 shadow-[0_14px_30px_-18px_rgba(0,0,0,0.5)] transition-transform md:p-8"
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="relative flex min-h-[60vh] flex-col justify-center py-12 md:min-h-[70vh]"
     >
-      {project.image && <ProjectImage src={project.image} alt={project.title} />}
+      <motion.span
+        aria-hidden="true"
+        initial={{ opacity: 0, x: -20 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-15% 0px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="pointer-events-none absolute -left-2 -top-10 -z-10 select-none font-display text-[7rem] leading-none text-red/5 md:-top-16 md:text-[11rem]"
+      >
+        {String(index + 1).padStart(2, "0")}
+      </motion.span>
 
-      <h3 className="mt-4 font-display text-2xl text-ink md:text-3xl">
+      <span className="relative font-display text-sm text-red">
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <h3 className="relative mt-2 font-display text-3xl text-ink md:text-5xl">
         {project.title}
       </h3>
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-ink-dim">
+
+      <div className="mt-6 md:hidden">
+        <StickyImage project={project} />
+      </div>
+
+      <p className="mt-6 max-w-md text-sm leading-relaxed text-ink-dim">
         {project.description}
       </p>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="mt-6 flex flex-wrap gap-2">
         {project.tags.map((tag) => (
           <span
             key={tag}
@@ -71,7 +94,7 @@ function ProjectCard({
       </div>
 
       {(project.liveUrl || project.repoUrl) && (
-        <div className="mt-5 flex gap-4 text-sm text-ink-dim">
+        <div className="mt-6 flex gap-4 text-sm text-ink-dim">
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -99,6 +122,8 @@ function ProjectCard({
 }
 
 export function Projects() {
+  const [active, setActive] = useState(0);
+
   return (
     <section id="projects" className="relative py-28 md:py-36">
       <div className="section-container">
@@ -108,10 +133,23 @@ export function Projects() {
           titleClassName="text-4xl md:text-6xl text-red"
         />
 
-        <div className="grid gap-8 md:grid-cols-2">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index} />
-          ))}
+        <div className="grid gap-x-12 md:grid-cols-[1.35fr_1fr]">
+          <div className="hidden md:block">
+            <div className="sticky top-32">
+              <StickyImage project={projects[active]} />
+            </div>
+          </div>
+
+          <div>
+            {projects.map((project, index) => (
+              <ProjectEntry
+                key={project.title}
+                project={project}
+                index={index}
+                onActivate={setActive}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

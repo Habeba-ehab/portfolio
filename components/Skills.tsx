@@ -5,20 +5,40 @@ import { Cloud, Code2 } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 import { cloudSkills, frontendSkills } from "@/lib/data";
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.15, ease: "easeOut" },
+type ClusterCustom = { align: "left" | "right"; delay: number };
+
+const clusterSlide: Variants = {
+  hidden: ({ align }: ClusterCustom) => ({
+    opacity: 0,
+    x: align === "right" ? 60 : -60,
   }),
+  show: ({ delay }: ClusterCustom) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+  }),
+};
+
+const wordContainer: Variants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.05, delayChildren: 0.15 },
+  },
+};
+
+const wordVariant: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
 function SkillWord({ children }: { children: React.ReactNode }) {
   return (
-    <span className="font-semibold text-ink transition-colors hover:text-red cursor-default">
+    <motion.span
+      variants={wordVariant}
+      className="font-semibold text-ink transition-colors hover:text-red cursor-default"
+    >
       {children}
-    </span>
+    </motion.span>
   );
 }
 
@@ -60,11 +80,11 @@ function SkillCluster({
 }) {
   return (
     <motion.div
-      custom={delay}
+      custom={{ align, delay }}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-15% 0px" }}
-      variants={fadeUp}
+      variants={clusterSlide}
       className={align === "right" ? "md:text-right md:ml-auto" : ""}
     >
       <div
@@ -72,9 +92,15 @@ function SkillCluster({
           align === "right" ? "md:flex-row-reverse md:justify-end" : ""
         }`}
       >
-        <span className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-red text-red md:h-16 md:w-16">
+        <motion.span
+          initial={{ rotate: -25, scale: 0.7, opacity: 0 }}
+          whileInView={{ rotate: 0, scale: 1, opacity: 1 }}
+          viewport={{ once: true, margin: "-15% 0px" }}
+          transition={{ duration: 0.5, delay: delay + 0.1, ease: "backOut" }}
+          className="flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-red text-red md:h-16 md:w-16"
+        >
           {icon}
-        </span>
+        </motion.span>
         <h3 className="font-display leading-none text-ink text-[clamp(2.5rem,6vw,4.5rem)]">
           {title}
         </h3>
@@ -86,13 +112,17 @@ function SkillCluster({
         )}
       </div>
 
-      <p
+      <motion.p
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-15% 0px" }}
+        variants={wordContainer}
         className={`max-w-xl text-lg leading-relaxed text-ink-dim ${
           align === "right" ? "md:ml-auto" : ""
         }`}
       >
         <ProseList items={children as unknown as string[]} />
-      </p>
+      </motion.p>
     </motion.div>
   );
 }

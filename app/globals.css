@@ -6,9 +6,9 @@
   --color-paper-card: #1b1917;
   --color-ink: #dbc7b3;
   --color-ink-dim: #a99a86;
-  --color-red: #971616;
-  --color-red-dark: #711010;
-  --color-red-light: #c4483a;
+  --color-red: #711522;
+  --color-red-dark: #4f0f19;
+  --color-red-light: #9c3a44;
 
   --font-display: var(--font-playfair);
   --font-body: var(--font-inter);

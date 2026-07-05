@@ -1,18 +1,31 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { useRef, type ReactNode } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionHeading } from "./SectionHeading";
 import { ProfilePhoto } from "./decor/ProfilePhoto";
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, delay: i * 0.12, ease: "easeOut" },
-  }),
-};
+function RevealLine({
+  children,
+  delay = 0,
+}: {
+  children: ReactNode;
+  delay?: number;
+}) {
+  return (
+    <div className="overflow-hidden">
+      <motion.p
+        initial={{ y: "100%" }}
+        whileInView={{ y: "0%" }}
+        viewport={{ once: true, margin: "-15% 0px" }}
+        transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+        className="text-ink-dim leading-relaxed text-lg"
+      >
+        {children}
+      </motion.p>
+    </div>
+  );
+}
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,20 +53,13 @@ export function About() {
         <SectionHeading
           title="About Me"
           showUnderline={false}
-          titleClassName="text-5xl md:text-7xl text-red"
+          titleClassName="text-4xl md:text-6xl text-red"
         />
 
-        <div className="grid gap-12 md:grid-cols-5 md:gap-16 md:items-stretch">
+        <div className="grid gap-12 md:grid-cols-5 md:gap-16 md:items-start">
           <motion.div style={{ y: textY }} className="md:col-span-3">
-            <motion.div
-              custom={0}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-15% 0px" }}
-              variants={fadeUp}
-              className="space-y-5 text-ink-dim leading-relaxed text-lg"
-            >
-              <p>
+            <div className="space-y-5">
+              <RevealLine delay={0}>
                 I&apos;m Habeba, a frontend developer with a Computer Science
                 degree from{" "}
                 <span className="text-ink font-semibold">
@@ -67,8 +73,8 @@ export function About() {
                 <span className="text-ink font-semibold">Three.js</span> on 3D
                 web experiences. I care about the details that make an
                 interface feel fast, smooth, and well put together.
-              </p>
-              <p>
+              </RevealLine>
+              <RevealLine delay={0.12}>
                 Alongside that, I&apos;ve been expanding into cloud and
                 DevOps, getting hands-on with{" "}
                 <span className="text-ink font-semibold">
@@ -77,55 +83,62 @@ export function About() {
                 . It&apos;s a natural next step for me: understanding how what
                 I build gets deployed and scaled only makes me better at
                 building it in the first place.
-              </p>
-              <p>
+              </RevealLine>
+              <RevealLine delay={0.24}>
                 I like working across that range, from the interface a user
                 sees to the infrastructure running behind it, and I&apos;m
                 continuing to grow deeper into cloud and DevOps while staying
                 sharp on the frontend.
-              </p>
-            </motion.div>
+              </RevealLine>
+            </div>
           </motion.div>
 
           <motion.div
             style={{ y: photoY }}
             className="md:col-span-2 md:h-full"
           >
-            <motion.div
-              custom={1}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-15% 0px" }}
-              variants={fadeUp}
-              className="relative h-full"
-            >
-              <div className="h-104 w-full -rotate-2 overflow-hidden shadow-[0_20px_45px_-20px_rgba(0,0,0,0.55)] md:h-full">
+            <div className="relative h-full">
+              <motion.div
+                initial={{ clipPath: "inset(0% 0% 100% 0%)" }}
+                whileInView={{ clipPath: "inset(0% 0% 0% 0%)" }}
+                viewport={{ once: true, margin: "-15% 0px" }}
+                transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
+                className="h-104 w-full -rotate-2 overflow-hidden shadow-[0_20px_45px_-20px_rgba(0,0,0,0.55)] md:h-full"
+              >
                 <ProfilePhoto
                   src="/habeba.jpeg"
                   alt="Habeba Ehab"
                   initials="HE"
                   className="h-full w-full"
                 />
-              </div>
+              </motion.div>
 
-              <img
+              <motion.img
+                initial={{ opacity: 0, rotate: 40, scale: 0.6 }}
+                whileInView={{ opacity: 1, rotate: 18, scale: 1 }}
+                viewport={{ once: true, margin: "-15% 0px" }}
+                transition={{ duration: 0.6, delay: 0.7, ease: "easeOut" }}
                 src="/washi_tape_darkred_opaque.png"
                 alt=""
                 aria-hidden="true"
                 width={324}
                 height={94}
-                className="pointer-events-none absolute -top-4 -right-5 z-20 h-auto w-20 rotate-18 select-none drop-shadow-md sm:-top-5 sm:-right-6 sm:w-24 md:w-28"
+                className="pointer-events-none absolute -top-4 -right-5 z-20 h-auto w-20 select-none drop-shadow-md sm:-top-5 sm:-right-6 sm:w-24 md:w-28"
               />
 
-              <img
+              <motion.img
+                initial={{ opacity: 0, rotate: -30, scale: 0.6 }}
+                whileInView={{ opacity: 1, rotate: 18, scale: 1 }}
+                viewport={{ once: true, margin: "-15% 0px" }}
+                transition={{ duration: 0.6, delay: 0.85, ease: "easeOut" }}
                 src="/washi_tape_beige_opaque.png"
                 alt=""
                 aria-hidden="true"
                 width={324}
                 height={94}
-                className="pointer-events-none absolute -bottom-3 -left-5 z-20 h-auto w-20 rotate-18 select-none drop-shadow-md sm:-bottom-4 sm:-left-6 sm:w-24 md:w-28"
+                className="pointer-events-none absolute -bottom-3 -left-5 z-20 h-auto w-20 select-none drop-shadow-md sm:-bottom-4 sm:-left-6 sm:w-24 md:w-28"
               />
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

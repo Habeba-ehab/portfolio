@@ -29,25 +29,34 @@ export function Hero() {
         style={{ scale: contentScale, y: contentY, opacity: contentOpacity }}
         className="section-container relative z-10 flex flex-col items-center text-center"
       >
-        <div className="relative">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative z-0 font-display leading-[0.9] text-ink text-[clamp(4rem,20vw,14rem)]"
-          >
-            portfolio
-          </motion.h1>
-
+        <motion.div
+          initial={{ opacity: 0, y: 30, scale: 0.92 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="relative flex aspect-[2.6/1] w-[88vw] max-w-3xl items-center justify-center"
+        >
+          {/* orbit rings */}
           <motion.span
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="absolute left-[90%] top-[120%] z-20 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-script text-red text-[clamp(1rem,4vw,2.75rem)] font-semibold"
-          >
-            Habeba Ehab
-          </motion.span>
-        </div>
+            animate={{ rotate: [-8, -2, -8] }}
+            transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            className="pointer-events-none absolute inset-[-14%] rounded-[50%] border border-ink/25"
+          />
+          <motion.span
+            animate={{ rotate: [10, 4, 10] }}
+            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+            className="pointer-events-none absolute inset-[-6%] rounded-[50%] border border-ink/15"
+          />
+
+          {/* red badge */}
+          <div className="relative flex h-full w-full flex-col items-center justify-center rounded-[50%] bg-red px-6 shadow-[0_25px_60px_-20px_rgba(151,22,22,0.55)]">
+            <h1 className="font-display leading-[0.85] text-paper text-[clamp(3rem,13vw,8rem)]">
+              portfolio
+            </h1>
+            <span className="mt-3 font-script text-ink text-[clamp(1.25rem,3.4vw,2rem)]">
+              Habeba Ehab
+            </span>
+          </div>
+        </motion.div>
       </motion.div>
 
       <motion.button
