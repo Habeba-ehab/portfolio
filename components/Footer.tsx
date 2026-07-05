@@ -23,7 +23,7 @@ export function Footer() {
           whileHover={{ scale: 1.1, rotate: -8 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Back to top"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-ink/15 text-ink-dim transition-colors hover:border-red hover:text-red"
+          className="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-ink/15 text-ink-dim transition-colors hover:border-red hover:text-red"
         >
           <ArrowUp size={16} />
         </motion.button>

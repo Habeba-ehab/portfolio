@@ -229,7 +229,7 @@ export function Contact() {
               disabled={isSubmitting}
               whileHover={isSubmitting ? undefined : { scale: 1.03, rotate: -1 }}
               whileTap={isSubmitting ? undefined : { scale: 0.97 }}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-red px-6 py-3 text-sm font-semibold text-ink shadow-[0_10px_25px_-8px_rgba(151,22,22,0.5)] transition-colors hover:bg-red-dark disabled:opacity-60"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-red px-6 py-3 text-sm font-semibold text-ink shadow-[0_10px_25px_-8px_rgba(151,22,22,0.5)] transition-colors hover:bg-red-dark disabled:opacity-60 cursor-pointer"
             >
               {isSubmitting ? (
                 <>

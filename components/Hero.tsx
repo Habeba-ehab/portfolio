@@ -65,7 +65,7 @@ export function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 text-red"
+        className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 cursor-pointer text-red"
       >
         <motion.span
           animate={{ y: [0, 8, 0] }}
