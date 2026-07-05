@@ -13,7 +13,7 @@ function highlight(text: string) {
     pattern.test(part) ? (
       <span key={i} className="text-red font-bold">
         {part}
-      </span>
+      </span> 
     ) : (
       <span key={i}>{part}</span>
     )
