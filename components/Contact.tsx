@@ -8,7 +8,7 @@ import { contactInfo } from "@/lib/data";
 import { LinkedInIcon } from "./icons/LinkedInIcon";
 
 interface FormState {
-  name: string;
+  name: string; 
   email: string;
   message: string;
 }
