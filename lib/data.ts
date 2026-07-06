@@ -117,7 +117,7 @@ export const education: EducationEntry[] = [
     period: "2026",
     location: "Alexandria, Egypt",
     cgpa: "3.83/4.0",
-    grade: "Excellent",
+    grade: "Excellence",
     coursework: [
       "Data Structures & Algorithm Analysis",
       "Object-Oriented Programming",
