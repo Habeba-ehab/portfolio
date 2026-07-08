@@ -20,13 +20,16 @@ export const contactInfo = {
 };
 
 export const frontendSkills = [
+  "HTML",
+  "CSS",
+  "JavaScript",
+  "TypeScript",
   "React.js",
   "Next.js",
   "Redux (Redux Toolkit)",
   "Tailwind CSS",
   "Three.js",
-  "TypeScript",
-];
+] as const;
 
 export const cloudSkills = [
   "AWS",
@@ -37,7 +40,8 @@ export const cloudSkills = [
   "GitHub Actions",
   "Ansible",
   "Prometheus",
-];
+  "Grafana",
+] as const;
 
 export interface ProjectEntry {
   title: string;
@@ -50,20 +54,36 @@ export interface ProjectEntry {
 
 export const projects: ProjectEntry[] = [
   {
+    title: "PrometaV",
+    description:
+      "A 3D web platform that transforms how organizations communicate with their audiences through immersive, browser-based virtual environments. Includes pre-built modular spaces for onboarding, health & safety, and clinical trials that teams can customize via a drag-and-drop dashboard, uploading videos, documents, and images without writing code. Members are invited through secure email links with no app downloads, while real-time analytics, gamified assessments, and an integrated AI chatbot help track engagement and answer questions based on the uploaded material.",
+    tags: ["3D Web Platform", "AI Chatbot", "Corporate Training"],
+    image: "/pmv.png",
+    liveUrl: "https://www.prometav.com/en",
+  },
+  {
+    title: "Gamein",
+    description:
+      "The official website for Gamein, a Dubai-based technology company building immersive digital solutions across VR, AR, the metaverse, blockchain, and AI for industries like healthcare, construction, real estate, and government. The site showcases the company's portfolio of game development, Web3 infrastructure, AI-driven products, IoT and digital twin solutions, and tech-enabled event hardware rentals across the Middle East, UK, and beyond.",
+    tags: ["Company Website", "Immersive Tech", "3D/AR/VR"],
+    image: "/gamein.png",
+    liveUrl: "https://www.gamein.ae/eg-en",
+  },
+  {
+    title: "SanadiBot",
+    description:
+      "An AI assistant platform for business data management and automation, letting teams create and manage intelligent \"SanBots\" that turn daily work into clear, actionable insights. Built with a strong emphasis on data privacy, the platform supports local, on-premises operation so business information stays under the user's control instead of being sent to external servers.",
+    tags: ["AI Assistant", "Business Automation", "Data Privacy"],
+    image: "/sanadibot.png",
+    liveUrl: "https://www.sanadibot.ai/",
+  },
+  {
     title: "HydroScope",
     description:
       "An AI-powered web app that helps identify harmful bacteria in water samples from a simple microscope photo. Users upload an image of a bacteria slide and are guided step-by-step through an interactive visual decision tree, mimicking the biochemical testing process microbiologists use in real labs, to pinpoint the exact species with a confidence score. HydroScope then recommends appropriate water treatment steps and keeps a history of past analyses, backed by an AI chat assistant and an educational guide on water safety.",
     tags: ["AI", "Chatbot", "Backend Integration"],
     image: "/hydroscope2.png",
     liveUrl: "https://hydroscope.vercel.app/",
-  },
-  {
-    title: "Flowlix",
-    description:
-      "A landing page built to showcase front-end development and animation skills, presenting a fictional workflow-automation product that lets teams connect apps like Slack, Notion, Gmail, and GitHub to automate repetitive tasks without code. Features a hero section with an animated 3D graphic, feature highlights, animated stat counters, a scrolling showcase, and an FAQ section.",
-    tags: ["Framer Motion", "GSAP", "Vite"],
-    image: "/flowlix.png",
-    liveUrl: "https://flowlix-five.vercel.app/",
   },
 ];
 

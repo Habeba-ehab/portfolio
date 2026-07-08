@@ -2,10 +2,78 @@
 
 import { motion, type Variants } from "framer-motion";
 import { Cloud, Code2 } from "lucide-react";
+import Image from "next/image";
+import { FaAws } from "react-icons/fa6";
+import {
+  SiAnsible,
+  SiCss,
+  SiDocker,
+  SiGithubactions,
+  SiGrafana,
+  SiHtml5,
+  SiJavascript,
+  SiKubernetes,
+  SiNextdotjs,
+  SiPrometheus,
+  SiReact,
+  SiRedux,
+  SiTailwindcss,
+  SiTerraform,
+  SiThreedotjs,
+  SiTypescript,
+} from "react-icons/si";
 import { SectionHeading } from "./SectionHeading";
 import { cloudSkills, frontendSkills } from "@/lib/data";
 
 type ClusterCustom = { align: "left" | "right"; delay: number };
+
+const skillIcons: Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>> = {
+  HTML: SiHtml5,
+  CSS: SiCss,
+  JavaScript: SiJavascript,
+  TypeScript: SiTypescript,
+  "React.js": SiReact,
+  "Next.js": SiNextdotjs,
+  "Redux (Redux Toolkit)": SiRedux,
+  "Tailwind CSS": SiTailwindcss,
+  "Three.js": SiThreedotjs,
+  AWS: FaAws,
+  Docker: SiDocker,
+  Kubernetes: SiKubernetes,
+  Terraform: SiTerraform,
+  "GitHub Actions": SiGithubactions,
+  Ansible: SiAnsible,
+  Prometheus: SiPrometheus,
+  Grafana: SiGrafana,
+};
+
+// Jenkins uses its full-color mascot logo (public/icons/jenkins.svg) instead
+// of the monochrome icon set, since the official mark is multi-color.
+const skillImages: Record<string, string> = {
+  Jenkins: "/icons/jenkins.svg",
+};
+
+// Official brand colors. Next.js and Three.js ship black logos, bumped to ink
+// so they stay visible on the dark background.
+const skillColors: Record<string, string> = {
+  HTML: "#E34F26",
+  CSS: "#663399",
+  JavaScript: "#F7DF1E",
+  TypeScript: "#3178C6",
+  "React.js": "#61DAFB",
+  "Next.js": "#dbc7b3",
+  "Redux (Redux Toolkit)": "#764ABC",
+  "Tailwind CSS": "#38BDF8",
+  "Three.js": "#dbc7b3",
+  AWS: "#FF9900",
+  Docker: "#2496ED",
+  Kubernetes: "#326CE5",
+  Terraform: "#844FBA",
+  "GitHub Actions": "#2088FF",
+  Ansible: "#EE0000",
+  Prometheus: "#E6522C",
+  Grafana: "#F46800",
+};
 
 const clusterSlide: Variants = {
   hidden: ({ align }: ClusterCustom) => ({
@@ -19,47 +87,49 @@ const clusterSlide: Variants = {
   }),
 };
 
-const wordContainer: Variants = {
+const pillContainer: Variants = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.05, delayChildren: 0.15 },
+    transition: { staggerChildren: 0.06, delayChildren: 0.15 },
   },
 };
 
-const wordVariant: Variants = {
+const pillVariant: Variants = {
   hidden: { opacity: 0, y: 10 },
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
 };
 
-function SkillWord({ children }: { children: React.ReactNode }) {
+function SkillPill({ name }: { name: string }) {
+  const Icon = skillIcons[name];
+  const image = skillImages[name];
   return (
     <motion.span
-      variants={wordVariant}
-      className="font-semibold text-ink transition-colors hover:text-red cursor-default"
+      variants={pillVariant}
+      className="group flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-red/40 hover:bg-red/10"
     >
-      {children}
+      {image ? (
+        <Image src={image} alt="" width={18} height={18} className="h-4.5 w-4.5 shrink-0" />
+      ) : (
+        Icon && <Icon className="h-4 w-4 shrink-0" style={{ color: skillColors[name] }} />
+      )}
+      {name}
     </motion.span>
   );
 }
 
-function ProseList({ items }: { items: string[] }) {
+function PillList({ items }: { items: readonly string[] }) {
   return (
-    <>
-      {items.map((item, i) => {
-        const isLast = i === items.length - 1;
-        const isSecondLast = i === items.length - 2;
-        let trailer = ", ";
-        if (isLast) trailer = "";
-        else if (isSecondLast) trailer = items.length > 2 ? ", and " : " and ";
-
-        return (
-          <span key={item}>
-            <SkillWord>{item}</SkillWord>
-            {trailer}
-          </span>
-        );
-      })}
-    </>
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-15% 0px" }}
+      variants={pillContainer}
+      className="flex flex-wrap gap-3"
+    >
+      {items.map((item) => (
+        <SkillPill key={item} name={item} />
+      ))}
+    </motion.div>
   );
 }
 
@@ -69,14 +139,14 @@ function SkillCluster({
   badge,
   align,
   delay,
-  children,
+  items,
 }: {
   icon: React.ReactNode;
   title: string;
   badge?: string;
   align: "left" | "right";
   delay: number;
-  children: React.ReactNode;
+  items: readonly string[];
 }) {
   return (
     <motion.div
@@ -112,17 +182,7 @@ function SkillCluster({
         )}
       </div>
 
-      <motion.p
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-15% 0px" }}
-        variants={wordContainer}
-        className={`max-w-xl text-lg leading-relaxed text-ink-dim ${
-          align === "right" ? "md:ml-auto" : ""
-        }`}
-      >
-        <ProseList items={children as unknown as string[]} />
-      </motion.p>
+      <PillList items={items} />
     </motion.div>
   );
 }
@@ -138,18 +198,15 @@ export function Skills() {
         />
 
         <div className="flex flex-col gap-20 md:gap-28">
-          <SkillCluster icon={<Code2 size={22} />} title="Frontend" align="left" delay={0}>
-            {frontendSkills as unknown as React.ReactNode}
-          </SkillCluster>
+          <SkillCluster icon={<Code2 size={22} />} title="Frontend" align="left" delay={0} items={frontendSkills} />
 
           <SkillCluster
             icon={<Cloud size={22} />}
             title="Cloud / DevOps"
             align="right"
             delay={0.15}
-          >
-            {cloudSkills as unknown as React.ReactNode}
-          </SkillCluster>
+            items={cloudSkills}
+          />
         </div>
       </div>
     </section>
